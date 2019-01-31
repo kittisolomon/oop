@@ -31,6 +31,54 @@ class Database {
  		die("cannot send record".mysqli_error($this->con));
  		}
  	}
+	// initialize session method
+   public function session_initialize($key, $value)
+    {
+        session_start();
+        
+        $_SESSION[$key] = $value;
+
+    }
+
+    // userlogin logic method 
+ 	public function user_Login($table,$email,$password){
+
+        $condition = '';
+
+        $condition =" WHERE email = '$email' AND password = '$password' ";
+
+        $sql = " SELECT * FROM " . $table. $condition;
+
+         $result = mysqli_query($this->con, $sql);
+
+        $query = mysqli_num_rows($result);
+
+        if($query==0) {
+
+         $this->msg = "Invalid Username Or password";
+
+        }
+        else
+        {
+
+         while($check=mysqli_fetch_array($result)){
+
+        $user=$check["email"];
+                    
+        $pass= $check["password"];
+                        
+        }
+  
+        if($email == $user && $password == $pass ){
+
+        header("Location: userview.php");
+
+        }
+
+        }
+
+        }
+
   
   }
 
@@ -45,11 +93,19 @@ $obj = new Database();
  	$gender = $_POST['gender'];
     	$bank_name = $_POST['bank_name'];
     	$routineno = $_POST['routineno'];
+	$obj->insert_BandDetails("bank_details","{$fullname}","{$address}","{$dob}","{$occupation}","{$gender}","{$bank_name}","{$routineno}");
+		
+}
 	
-		$obj->insert_BandDetails("bank_details","{$fullname}","{$address}","{$dob}","{$occupation}","{$gender}","{$bank_name}","{$routineno}");
-}
-}
-
+    if(isset($_POST["login"])){
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+        $obj->session_initialize('email', "{$email}");
+        if($obj->user_login("users","{$email}","{$password}"))
+    {
+        header("Location: userview.php");
+    }
+ }
 ?>
 
 
