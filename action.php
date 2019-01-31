@@ -1,3 +1,4 @@
+<?php
 class Database {
  	public $error;
  	public	$con = null;
@@ -42,8 +43,8 @@ $obj = new Database();
  	$dob = $_POST['dob'];
  	$occupation = $_POST['occupation'];
  	$gender = $_POST['gender'];
-    $bank_name = $_POST['bank_name'];
-    $routineno = $_POST['routineno'];
+    	$bank_name = $_POST['bank_name'];
+    	$routineno = $_POST['routineno'];
 	
 		$obj->insert_BandDetails("bank_details","{$fullname}","{$address}","{$dob}","{$occupation}","{$gender}","{$bank_name}","{$routineno}");
 }
